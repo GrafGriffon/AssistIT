@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">GriffoAssistant</string>
+    <string-array name="catNames">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>20</item>
+        <item>24</item>
+        <item>28</item>
+        <item>32</item>
+    </string-array>
+    <string name="error">Error</string>
+    <string name="successful">Successful</string>
+    <string name="auth_s">Login successful</string>
+    <string name="reg_s">Registration successful</string>
+    <string name="auth_e">Authorisation error</string>
+    <string name="reg_e">Registration error</string>
+    <string name="registration">Registration</string>
+    <string name="authorization">Authorization</string>
+    <string name="mail">Email</string>
+    <string name="mes">New art</string>
+    <string name="password">Password</string>
+    <string name="image">Image</string>
+    <string name="save">Save</string>
+    <string name="read">Read</string>
+    <string name="out">Out</string>
+    <string name="art_name">Name</string>
+    <string name="art_author">Author</string>
+    <string name="art_text">Text art</string>
+    <string name="add_art">Add new artwork</string>
+    <string name="field_validation">Check input fields</string>
+
+</resources>

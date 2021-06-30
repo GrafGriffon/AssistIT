@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">GriffoAssistant</string>
+    <string-array name="catNames">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>20</item>
+        <item>24</item>
+        <item>28</item>
+        <item>32</item>
+    </string-array>
+    <string name="error">Ошибка</string>
+    <string name="successful">Успешно</string>
+    <string name="auth_s">Aвторизация успешна</string>
+    <string name="reg_s">Регистрация успешна</string>
+    <string name="auth_e">Ошибка авторизации</string>
+    <string name="reg_e">Ошибка регистрации</string>
+    <string name="registration">Регистрация</string>
+    <string name="authorization">Авторизация</string>
+    <string name="mail">Почта</string>
+    <string name="mes">Добавлено новое произведение</string>
+    <string name="password">Пароль</string>
+    <string name="image">Изображение</string>
+    <string name="save">Сохранить</string>
+    <string name="read">Список</string>
+    <string name="out">Выход</string>
+    <string name="art_name">Название</string>
+    <string name="art_author">Автор</string>
+    <string name="art_text">Текст произведения</string>
+    <string name="add_art">Добавить новое произведение</string>
+    <string name="field_validation">Проверьте поля ввода</string>
+
+</resources>

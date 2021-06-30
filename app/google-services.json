@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "316257349243",
+    "firebase_url": "https://assistant-51749-default-rtdb.firebaseio.com",
+    "project_id": "assistant-51749",
+    "storage_bucket": "assistant-51749.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316257349243:android:1510370fd23007f5267cde",
+        "android_client_info": {
+          "package_name": "com.example.griffoassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "316257349243-0vfkfvabn2phfunsc8hd21ddh7vtu6ji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.griffoassistant",
+            "certificate_hash": "cd0ee9e45516d714235afd136f24eecfc270f0f1"
+          }
+        },
+        {
+          "client_id": "316257349243-klmuhpbr6gbl54su7jiqadbbadr7non0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk4pBHqhE9n3BrMbJMN0mG0vFV4wBNRMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316257349243-klmuhpbr6gbl54su7jiqadbbadr7non0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
