@@ -12,7 +12,6 @@
         <activity
             android:name=".CheckMessage"
             android:exported="false" />
-        <activity android:name=".ShowActivity" />
         <activity android:name=".ReadActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

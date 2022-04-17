@@ -11,6 +11,8 @@
         <item>32</item>
     </string-array>
     <string name="error">Ошибка</string>
+    <string name="send">Отправить</string>
+    <string name="lang">en</string>
     <string name="successful">Успешно</string>
     <string name="auth_s">Aвторизация успешна</string>
     <string name="reg_s">Регистрация успешна</string>
@@ -21,7 +23,7 @@
     <string name="mail">Почта</string>
     <string name="mes">Добавлено новое произведение</string>
     <string name="password">Пароль</string>
-    <string name="image">Изображение</string>
+    <string name="image">Загр.</string>
     <string name="save">Сохранить</string>
     <string name="read">Список</string>
     <string name="out">Выход</string>

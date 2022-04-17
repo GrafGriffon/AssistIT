@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -151,5 +152,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         finish();
                     }
                 });
+    }
+
+    public void setLang(View view) {
+        Button lang = findViewById(R.id.buttonLang3);
+        if (lang.getText().equals("en")) {
+            LocaleHelper.setLocale(this, "en"); //for french;
+        } else {
+            LocaleHelper.setLocale(this, "ru"); //for french;
+        }
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

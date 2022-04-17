@@ -13,6 +13,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -179,5 +180,17 @@ public class CheckMessage extends AppCompatActivity {
 
         assert notificationManager != null;
         notificationManager.notify((int) System.currentTimeMillis() /* ID of notification */, notificationBuilder.build());
+    }
+
+    public void setLang(View view) {
+        Button lang = findViewById(R.id.buttonLang2);
+        if (lang.getText().equals("en")) {
+            LocaleHelper.setLocale(this, "en"); //for french;
+        } else {
+            LocaleHelper.setLocale(this, "ru"); //for french;
+        }
+        Intent intent = new Intent(CheckMessage.this, CheckMessage.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

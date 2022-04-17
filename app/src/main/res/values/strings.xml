@@ -11,6 +11,8 @@
         <item>32</item>
     </string-array>
     <string name="error">Error</string>
+    <string name="send">Send</string>
+    <string name="lang">ru</string>
     <string name="successful">Successful</string>
     <string name="auth_s">Login successful</string>
     <string name="reg_s">Registration successful</string>

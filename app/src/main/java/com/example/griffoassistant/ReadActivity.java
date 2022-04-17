@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ReadActivity extends AppCompatActivity {
 
@@ -81,10 +84,6 @@ public class ReadActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (arts.size()>0){
-                    testMessage("new art", new Intent());
-                    arts.clear();
-                }
                 ArrayList mails = new ArrayList();;
                 for(DataSnapshot ds: snapshot.getChildren()){
                     CheckUser message = ds.getValue(CheckUser.class);
@@ -139,40 +138,6 @@ public class ReadActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void testMessage (String message , Intent  intent){
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-
-        String channelId = "some_channel_id";
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(android.R.drawable.ic_dialog_email)
-                        .setContentTitle(getString(R.string.app_name)+": add new art")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                        .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            assert notificationManager != null;
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        assert notificationManager != null;
-        notificationManager.notify((int) System.currentTimeMillis() /* ID of notification */, notificationBuilder.build());
-    }
-
     private void setOnClickItem(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -190,10 +155,6 @@ public class ReadActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (arts.size()>0){
-                    testMessage("new art", new Intent());
-                    arts.clear();
-                }
                 ArrayList mails = new ArrayList();;
                 for(DataSnapshot ds: snapshot.getChildren()){
                     CheckUser message = ds.getValue(CheckUser.class);
@@ -225,5 +186,17 @@ public class ReadActivity extends AppCompatActivity {
         };
 
         myDatabase.addValueEventListener(vListener);
+    }
+
+    public void setLang(View view) {
+        Button lang = findViewById(R.id.buttonLang);
+        if (lang.getText().equals("en")) {
+            LocaleHelper.setLocale(this, "en"); //for french;
+        } else {
+            LocaleHelper.setLocale(this, "ru"); //for french;
+        }
+        Intent intent = new Intent(ReadActivity.this, ReadActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
