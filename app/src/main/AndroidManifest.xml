@@ -9,9 +9,11 @@
         android:roundIcon="@drawable/logo_r"
         android:supportsRtl="true"
         android:theme="@style/Theme.GriffoAssistant">
+        <activity
+            android:name=".CheckMessage"
+            android:exported="false" />
         <activity android:name=".ShowActivity" />
         <activity android:name=".ReadActivity" />
-        <activity android:name=".ArtworksActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

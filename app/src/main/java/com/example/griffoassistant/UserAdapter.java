@@ -12,12 +12,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class BoxAdapter extends BaseAdapter {
+public class UserAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater lInflater;
-    ArrayList<UserMessage> objects;
+    ArrayList<CheckUser> objects;
 
-    BoxAdapter(Context context, ArrayList<UserMessage> elements) {
+    UserAdapter(Context context, ArrayList<CheckUser> elements) {
         ctx = context;
         objects = elements;
         lInflater = (LayoutInflater) ctx
@@ -50,15 +50,15 @@ public class BoxAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
 
-        UserMessage element = getProduct(position);
+        CheckUser element = getProduct(position);
 
         // заполняем View в пункте списка данными из товаров: наименование, цена
         // и картинка
-        ((TextView) view.findViewById(R.id.tvDescr)).setText(element.message);
-        ((TextView) view.findViewById(R.id.tvPrice)).setText(element.from);
+        ((TextView) view.findViewById(R.id.tvDescr)).setText(element.idUser);
+        ((TextView) view.findViewById(R.id.tvPrice)).setText(element.last);
         Picasso.with(view.getContext())
-                .load(element.image)
-                .placeholder(R.drawable.foto)
+                .load(R.drawable.unnamed)
+                .placeholder(R.drawable.load)
                 .error(R.drawable.exit)
                 .into((ImageView) view.findViewById(R.id.ivImage));
 
@@ -66,7 +66,7 @@ public class BoxAdapter extends BaseAdapter {
     }
 
     // товар по позиции
-    UserMessage getProduct(int position) {
+    CheckUser getProduct(int position) {
         return objects.get(position);
     }
 }

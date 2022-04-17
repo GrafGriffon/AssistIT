@@ -36,14 +36,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ReadActivity extends AppCompatActivity {
+public class CheckMessage extends AppCompatActivity {
 
     private ListView listView;
-    UserAdapter boxAdapter;
+    BoxAdapter boxAdapter;
     private DatabaseReference myDatabase;
-    ArrayList<CheckUser> arts = new ArrayList<>();
+    private DatabaseReference myDatabase2;
+    ArrayList<UserMessage> arts = new ArrayList<>();
     private FirebaseAuth mAuth;
     private String url;
     private StorageReference storageReference;
@@ -54,16 +54,12 @@ public class ReadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_read);
+        setContentView(R.layout.activity_check_message);
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser!=null) {
-            Toast.makeText(this, currentUser.getEmail(), Toast.LENGTH_LONG).show();
-        }
         assert currentUser != null;
         init(currentUser.getEmail());
-        editText=findViewById(R.id.editTextTextPersonName2);
         getData();
-        setOnClickItem();
+        editText = findViewById(R.id.editTextTextPersonName);
     }
 
     private void init(String email){
@@ -71,9 +67,11 @@ public class ReadActivity extends AppCompatActivity {
         back.getBackground().setAlpha(127);
         listView = findViewById(R.id.listViewArt);
         arts= new ArrayList<>();
-        boxAdapter = new UserAdapter(this, arts);
+        boxAdapter = new BoxAdapter(this, arts);
         listView.setAdapter(boxAdapter);
-        myDatabase = FirebaseDatabase.getInstance().getReference("illia2002kurb@gmailcom");
+        Intent intent = getIntent();
+        myDatabase = FirebaseDatabase.getInstance().getReference(mAuth.getCurrentUser().getEmail().replaceAll("[,.]", "") + "-" + intent.getStringExtra("naming").replaceAll("[,.]", ""));
+        myDatabase2 = FirebaseDatabase.getInstance().getReference(intent.getStringExtra("naming").replaceAll("[,.]", "")+"-"+mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""));
         storageReference = FirebaseStorage.getInstance().getReference("images");
     }
 
@@ -85,26 +83,10 @@ public class ReadActivity extends AppCompatActivity {
                     testMessage("new art", new Intent());
                     arts.clear();
                 }
-                ArrayList mails = new ArrayList();;
                 for(DataSnapshot ds: snapshot.getChildren()){
-                    CheckUser message = ds.getValue(CheckUser.class);
-                    assert message != null;
-                    if (!message.idUser.equals(mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""))) {
-                        if (editText.getText().equals("")) {
-                            arts.add(new CheckUser(message.id, message.idUser, message.last, message.status, message.count));
-                        } else {
-                            if (message.idUser.contains(editText.getText())){
-                                arts.add(new CheckUser(message.id, message.idUser, message.last, message.status, message.count));
-                            }
-                        }
-                    }
-                    mails.add(message.idUser);
-                }
-                if (!mails.contains(mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""))){
-                    String id = myDatabase.getKey();
-                    CheckUser user = new CheckUser(id, mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""), "last", true, 0);
-                    myDatabase.push().setValue(user);
-
+                    UserMessage art = ds.getValue(UserMessage.class);
+                    assert art != null;
+                    arts.add(new UserMessage(art.id, art.message, art.from, art.image));
                 }
                 boxAdapter.notifyDataSetChanged();
             }
@@ -116,6 +98,32 @@ public class ReadActivity extends AppCompatActivity {
         };
 
         myDatabase.addValueEventListener(vListener);
+        myDatabase2.addValueEventListener(vListener);
+    }
+
+    public void addImg(View view){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    public void saveData(View view) {
+        String id = myDatabase.getKey();
+        String id2 = myDatabase2.getKey();
+        String from = mAuth.getCurrentUser().getEmail().replaceAll("[,.]", "");
+        String text = String.valueOf(editText.getText());
+        if (text.length()!=0) {
+            UserMessage user = new UserMessage(id, text, from, url);
+            myDatabase.push().setValue(user);
+            Toast.makeText(this, R.string.successful, Toast.LENGTH_SHORT).show();
+            url="https://firebasestorage.googleapis.com/v0/b/assistant-51749.appspot.com/o/images%2F5e5845a7ead6d.jpg?alt=media&token=a4766317-7343-4549-8213-f2cc4ca7adae";
+             user = new UserMessage(id2, text, from, url);
+            myDatabase2.push().setValue(user);
+            Toast.makeText(this, R.string.successful, Toast.LENGTH_SHORT).show();
+            url="https://firebasestorage.googleapis.com/v0/b/assistant-51749.appspot.com/o/images%2F5e5845a7ead6d.jpg?alt=media&token=a4766317-7343-4549-8213-f2cc4ca7adae";
+        }
+        editText.setText("");
     }
 
     @Override
@@ -135,7 +143,7 @@ public class ReadActivity extends AppCompatActivity {
 
     public void clickOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(ReadActivity.this, MainActivity.class);
+        Intent intent = new Intent(CheckMessage.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -171,59 +179,5 @@ public class ReadActivity extends AppCompatActivity {
 
         assert notificationManager != null;
         notificationManager.notify((int) System.currentTimeMillis() /* ID of notification */, notificationBuilder.build());
-    }
-
-    private void setOnClickItem(){
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckUser art = arts.get(position);
-
-                Intent intent= new Intent(ReadActivity.this, CheckMessage.class);
-                intent.putExtra("naming", art.idUser);
-                startActivity(intent);
-            }
-        });
-    }
-
-    public void getSearch(View view) {
-        ValueEventListener vListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (arts.size()>0){
-                    testMessage("new art", new Intent());
-                    arts.clear();
-                }
-                ArrayList mails = new ArrayList();;
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    CheckUser message = ds.getValue(CheckUser.class);
-                    assert message != null;
-                    if (!message.idUser.equals(mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""))) {
-                        if (editText.getText().equals("")) {
-                            arts.add(new CheckUser(message.id, message.idUser, message.last, message.status, message.count));
-                        } else {
-                            if (message.idUser.contains(editText.getText())){
-                                arts.add(new CheckUser(message.id, message.idUser, message.last, message.status, message.count));
-                            }
-                        }
-                    }
-                    mails.add(message.idUser);
-                }
-                if (!mails.contains(mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""))){
-                    String id = myDatabase.getKey();
-                    CheckUser user = new CheckUser(id, mAuth.getCurrentUser().getEmail().replaceAll("[,.]", ""), "last", true, 0);
-                    myDatabase.push().setValue(user);
-
-                }
-                boxAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-
-        myDatabase.addValueEventListener(vListener);
     }
 }
